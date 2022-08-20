@@ -55,9 +55,10 @@
 2. Redis预减库存
 3. 内存标记（HashMap）标记是否已结束
 4. RabbitMQ入队
-![](https://github.com/seiright/JavaNote/tree/main/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE/images/2022-08-12-15-10-34.png)
+
+![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-12-15-10-34.png)
 ### 1.1.2. 项目组成
-![](images/2022-08-12-15-13-38.png)
+![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-12-15-13-38.png)
 在用户登录上，实现了用户密码两次MD5入库，利用Redis实现分布式Session。将前端页面（商品列表页、详情页和订单详情页）静态化，将HTML缓存在浏览器中，通过前端ajAx来访问后端，获取页面需要显示的数据。前后端分离，减少网络数据的传输。在服务器端，通过Redis预减库存减少对数据库的访问，通过内存标记来减少对Redis的访问，通过RabbitMQ消息队列异步下单缓解数据库压力。通过Jmeter做压测，吞吐量确实有所提高。为了防止恶意刷单，隐藏了秒杀地址，做了图形验证码，接口限流防刷等。
 
 # 2. 中间件安装
@@ -147,16 +148,16 @@ systemctl daemon-reload                 # 加载服务配置文件
 Nginx是一个高性能的HTTP和反向代理Web服务器。
 代理服务器。用来解决服务器负载均衡问题。
 **正向代理**：代理客户端。比如VPN。
-![](images/2022-08-18-19-04-27.png)
+![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-18-19-04-27.png)
 
 
 ### 2.3.1. Nginx功能
 1. **反向代理**：代理服务端。让用户无感访问浏览器，只需关注域名，不需关注要访问哪一个服务器。
-    ![](images/2022-08-18-19-06-00.png)
+    ![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-18-19-06-00.png)
 2. **负载均衡**：具有高性能的服务器处理更多的请求。即使用**加权轮询**的方式。
-    ![](images/2022-08-18-19-11-08.png)
+    ![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-18-19-11-08.png)
 3. **动静分离**：
-    ![](images/2022-08-18-19-09-33.png)
+    ![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-18-19-09-33.png)
 
 ### 2.3.2. Nginx安装
 安装在`/usr/local/nginx`中。
@@ -266,7 +267,7 @@ http{
 ### 3.2.1. 目的
 1. 因某些变量会频繁的比较，降低了代码可读性。因此将通用的有效性验证转移至注解。
 
-![](images/2022-08-13-21-35-28.png)
+![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-13-21-35-28.png)
 ### 3.2.2. 实现
 1. 导入依赖
     ```xml
@@ -436,12 +437,12 @@ http{
 
 # 4. 数据库及页面设计
 ## 4.1. 数据库设计
-![](images/2022-08-16-12-36-11.png)
+![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-16-12-36-11.png)
 在后端连接数据库时，数据库配置需要修改为上海时区。否则Mysql存入时间和读取时间不一致。
 `url: jdbc:mysql://localhost:3306/miaosha?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=TRUE`
 
 ## 4.2. 页面设计
-![](images/2022-08-16-12-36-27.png)
+![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-16-12-36-27.png)
 
 
 # 5. JMeter压测
@@ -459,12 +460,12 @@ http{
 ## 5.3. Jmeter测试数据
 1. **商品列表测试**：针对goods/to_list
     Linux中开5000个线程，循环10次，也就是发50000个请求。中途没有报错。得到以下结果：
-    ![](images/2022-08-16-22-01-51.png)
+    ![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-16-22-01-51.png)
 2. **秒杀测试**
     Linux中开5000个线程，循环10次，也就是发50000个请求。中途没有报错。得到以下结果：
-    ![](images/2022-08-16-22-38-24.png)
+    ![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-16-22-38-24.png)
     出现了超卖问题：
-    ![](images/2022-08-16-22-39-58.png)
+    ![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-16-22-39-58.png)
 
 # 6. 页面优化技术
 ## 6.1. 页面缓存+URL缓存+对象缓存
@@ -491,7 +492,7 @@ http{
     ```
 4. Jmeter测试数据
     针对`goods/to_list`。Linux中开5000个线程，循环10次，也就是发50000个请求。中途没有报错。得到以下结果：
-    ![](images/2022-08-17-12-52-56.png)
+    ![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-17-12-52-56.png)
 ### 6.1.2. 对象缓存
 
 ```java
@@ -751,7 +752,7 @@ if (over){
 
 ## 8.4. JMeter压测
 针对`miaosha/do_miaosha`。Linux中开5000个线程，循环10次，也就是发50000个请求对商品秒杀。中途没有报错。得到以下结果：
-![](images/2022-08-18-17-22-26.png)
+![images](https://github.com/seiright/JavaNote/tree/main/miaosha/images/2022-08-18-17-22-26.png)
 **没有出现超卖问题。**
 
 # 9. 安全优化
